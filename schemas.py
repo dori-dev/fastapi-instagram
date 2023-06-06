@@ -1,3 +1,4 @@
+from datetime import datetime
 from typing import List
 
 from pydantic import BaseModel
@@ -6,6 +7,7 @@ from pydantic import BaseModel
 class ArticleBase(BaseModel):
     title: str
     content: str
+    published: bool
 
 
 class Article(ArticleBase):
@@ -14,7 +16,7 @@ class Article(ArticleBase):
 
 class ArticleDisplay(ArticleBase):
     slug: str
-    published_at: bool
+    published_at: datetime
 
     class Config:
         orm_mode = True

@@ -27,10 +27,10 @@ def create_user(user: User, db=Depends(get_db)):
 def get_user_detail(id: int, db=Depends(get_db)):
     user = user_db.get_user(db, id)
     if user:
-        return UserDisplay.from_orm(user)
+        return user
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
-        detail=f'Use with id {id} not found!',
+        detail=f'User with id {id} not found!',
     )
 
 
@@ -40,7 +40,7 @@ def delete_user(id: int, db=Depends(get_db)):
         return {}
     raise HTTPException(
         status_code=status.HTTP_404_NOT_FOUND,
-        detail=f'Use with id {id} not found!',
+        detail=f'User with id {id} not found!',
     )
 
 

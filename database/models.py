@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
+from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime
 from sqlalchemy.orm import relationship
 
 from database.db import base
@@ -11,7 +11,7 @@ class UserModel(base):
     username = Column(String(50), index=True)
     email = Column(String(100))
     password = Column(String(50))
-    articles = relationship('ArticleModel', backref='author')
+    articles = relationship('ArticleModel', back_populates='author')
 
 
 class ArticleModel(base):
@@ -21,5 +21,7 @@ class ArticleModel(base):
     title = Column(String(500))
     content = Column(String)
     slug = Column(String(8))
-    published_at = Column(Boolean)
+    published = Column(Boolean)
+    published_at = Column(DateTime)
     user_id = Column(Integer, ForeignKey('users.id'))
+    author = relationship('UserModel', back_populates='articles')
