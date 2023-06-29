@@ -1,10 +1,20 @@
+import re
 from sqlalchemy.orm.session import Session
+
 from schemas import User
 from database.models import UserModel
 from database.hash import Hash
+from exceptions import EmailNotValid
+
+
+def check_email(email):
+    pattern = r"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-]+)(\.[a-zA-Z]{2,5}){1,2}$"
+    if not re.match(pattern, email):
+        raise EmailNotValid('Email is not valid!')
 
 
 def create_user(db: Session, request: User):
+    check_email(request.email)
     user = UserModel(
         username=request.username,
         email=request.email,

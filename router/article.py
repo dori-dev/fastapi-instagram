@@ -2,7 +2,7 @@ from typing import List
 
 from fastapi import APIRouter, Depends, status, HTTPException
 
-from schemas import Article, ArticleDisplay, ArticleDetail, Author
+from schemas import Article, ArticleDisplay, ArticleDetail
 from database import article as article_db
 from database.db import get_db
 
