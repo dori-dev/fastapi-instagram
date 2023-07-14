@@ -5,6 +5,7 @@ from fastapi import APIRouter, Depends, status, HTTPException
 from schemas import Article, ArticleDisplay, ArticleDetail
 from database import article as article_db
 from database.db import get_db
+from auth.oauth2 import oauth2_scheme
 
 router = APIRouter(prefix='/article', tags=['article'])
 
@@ -19,7 +20,11 @@ def get_all_articles(db=Depends(get_db)):
     response_model=ArticleDisplay,
     status_code=status.HTTP_201_CREATED
 )
-def create_article(article: Article, db=Depends(get_db)):
+def create_article(
+        article: Article,
+        db=Depends(get_db),
+        token: str = Depends(oauth2_scheme),
+):
     return article_db.create_article(db, article)
 
 
