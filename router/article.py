@@ -2,10 +2,10 @@ from typing import List
 
 from fastapi import APIRouter, Depends, status, HTTPException
 
-from schemas import Article, ArticleDisplay, ArticleDetail
+from schemas import Article, ArticleDisplay, ArticleDetail, BaseUser
 from database import article as article_db
 from database.db import get_db
-from auth.oauth2 import oauth2_scheme
+from auth.oauth2 import get_current_user,
 
 router = APIRouter(prefix='/article', tags=['article'])
 
@@ -23,8 +23,10 @@ def get_all_articles(db=Depends(get_db)):
 def create_article(
         article: Article,
         db=Depends(get_db),
-        token: str = Depends(oauth2_scheme),
+        current_user: BaseUser = Depends(get_current_user)
 ):
+    print(current_user)
+    print(current_user.username)
     return article_db.create_article(db, article)
 
 

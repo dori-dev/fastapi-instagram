@@ -37,6 +37,13 @@ def get_user(db: Session, id):
         return None
 
 
+def get_user_by_username(db: Session, username):
+    try:
+        return db.query(UserModel).filter(UserModel.username == username).first()
+    except Exception:
+        return None
+
+
 def delete_user(db: Session, id):
     user = get_user(db, id)
     if user is None:
