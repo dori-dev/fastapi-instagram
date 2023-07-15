@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 
-from router import user, article
+from router import user, article, file
 from auth import authentication
 from database.models import base
 from database.db import create_all_models
@@ -9,6 +9,7 @@ from database.db import create_all_models
 app = FastAPI()
 app.include_router(user.router)
 app.include_router(article.router)
+app.include_router(file.router)
 app.include_router(authentication.router)
 
 create_all_models(base)
