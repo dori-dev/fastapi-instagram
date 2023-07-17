@@ -1,3 +1,4 @@
+from time import sleep
 from typing import List
 
 from fastapi import APIRouter, Depends, status, HTTPException
@@ -10,8 +11,14 @@ from auth.oauth2 import get_current_user
 router = APIRouter(prefix='/article', tags=['article'])
 
 
+async def sample_time_suspend():
+    sleep(5)
+    return True
+
+
 @router.get('/', response_model=List[ArticleDisplay])
-def get_all_articles(db=Depends(get_db)):
+async def get_all_articles(db=Depends(get_db)):
+    await sample_time_suspend()
     return article_db.get_articles(db)
 
 
