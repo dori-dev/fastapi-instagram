@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, Depends, status, HTTPException
+from fastapi import APIRouter, Depends, status, HTTPException, BackgroundTasks
 
 from schemas import User, UserDisplay
 from database import user as user_db
@@ -9,8 +9,14 @@ from database.db import get_db
 router = APIRouter(prefix='/user', tags=['user'])
 
 
+def log_data(message):
+    with open('user.log', 'a') as file:
+        file.write(f"{message}\n")
+
+
 @router.get('/', response_model=List[UserDisplay])
-def get_all_users(db=Depends(get_db)):
+def get_all_users(bt: BackgroundTasks, db=Depends(get_db)):
+    bt.add_task(log_data, 'Get all user list.')
     return user_db.get_users(db)
 
 
@@ -24,7 +30,8 @@ def create_user(user: User, db=Depends(get_db)):
 
 
 @router.get('/{id}', response_model=UserDisplay)
-def get_user_detail(id: int, db=Depends(get_db)):
+def get_user_detail(id: int, bt: BackgroundTasks, db=Depends(get_db)):
+    bt.add_task(log_data, f'Get detail of user with ID {id}.')
     user = user_db.get_user(db, id)
     if user:
         return user
