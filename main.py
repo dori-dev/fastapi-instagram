@@ -1,8 +1,10 @@
 from time import time
+from typing import List
 
-from fastapi import FastAPI, Request, Response
+from fastapi import FastAPI, Request, Response, WebSocket
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.templating import Jinja2Templates
 
 from router import user, article, file
 from auth import authentication
@@ -17,6 +19,8 @@ app.include_router(file.router)
 app.include_router(authentication.router)
 
 app.mount('/media', StaticFiles(directory='media'), name='files')
+
+templates = Jinja2Templates(directory="templates")
 
 origins = [
     'https://127.0.0.1:3000',
@@ -40,5 +44,24 @@ async def add_middleware(request: Request, call_next):
     duration = time() - start_time
     response.headers['duration-time'] = f"{round(duration, 2)} ms"
     return response
+
+
+clients: List[WebSocket] = []
+
+
+@app.websocket('/chat')
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    clients.append(websocket)
+    while True:
+        data = await websocket.receive_text()
+        for client in clients:
+            await client.send_text(data)
+
+
+@app.get('/')
+def home(request: Request):
+    return templates.TemplateResponse('home.html', {"request": request})
+
 
 create_all_models(base)
