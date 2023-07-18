@@ -1,3 +1,5 @@
+from string import ascii_letters
+from random import choices
 from os.path import exists as file_exists
 import shutil
 
@@ -8,16 +10,22 @@ from fastapi.responses import FileResponse
 router = APIRouter(prefix='/file', tags=['file'])
 
 
+def generate_name(file: UploadFile) -> str:
+    random_name = "".join(choices(ascii_letters, k=10))
+    extension = file.filename.rsplit('.', 1)[1]
+    name = f"{random_name}.{extension}"
+    return f'media/{name}'
+
+
 @router.post('/upload')
 def upload_file(file: UploadFile = File(...)):
-    name = file.filename
-    type = file.content_type
-    path = f'media/{name}'
+    path = generate_name(file)
+    while file_exists(path):
+        path = generate_name(file)
     with open(path, 'w+b') as buffer:
         shutil.copyfileobj(file.file, buffer)
     return {
-        'path': path,
-        'type': type,
+        'file_path': path,
     }
 
 
