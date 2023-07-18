@@ -1,14 +1,13 @@
 from typing import List
 
-from pydantic import BaseModel
-from fastapi import Body
+from pydantic import BaseModel, constr
 
 from schemas.post import PostDisplay
 
 
 class UserBase(BaseModel):
     username: str
-    email: Body(
+    email: constr(
         regex=r"^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-]+)(\.[a-zA-Z]{2,5}){1,2}$"
     )
 

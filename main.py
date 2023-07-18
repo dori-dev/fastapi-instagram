@@ -5,7 +5,7 @@ from fastapi import FastAPI, Request, Response, WebSocket
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
 
-from router import user, article, file
+from router import user, file, post
 from auth import authentication
 from db.models import base
 from db.database import create_all_models
@@ -13,9 +13,9 @@ from db.database import create_all_models
 
 app = FastAPI()
 app.include_router(user.router)
-app.include_router(article.router)
 app.include_router(file.router)
 app.include_router(authentication.router)
+app.include_router(post.router)
 
 app.mount('/media', StaticFiles(directory='media'), name='files')
 
