@@ -1,9 +1,10 @@
 from typing import List
 
 from fastapi import APIRouter, Depends, status, HTTPException, BackgroundTasks
+from sqlalchemy.orm import Session
 
-from schemas import User, UserDisplay
-from db import user as user_db
+from schemas.user import User, UserDisplay
+from db import user_db
 from db.database import get_db
 
 router = APIRouter(prefix='/user', tags=['user'])
@@ -15,7 +16,7 @@ def log_data(message):
 
 
 @router.get('/', response_model=List[UserDisplay])
-def get_all_users(bt: BackgroundTasks, db=Depends(get_db)):
+def get_all_users(bt: BackgroundTasks, db: Session = Depends(get_db)):
     bt.add_task(log_data, 'Get all user list.')
     return user_db.get_users(db)
 
@@ -25,7 +26,7 @@ def get_all_users(bt: BackgroundTasks, db=Depends(get_db)):
     response_model=UserDisplay,
     status_code=status.HTTP_201_CREATED
 )
-def create_user(user: User, db=Depends(get_db)):
+def create_user(user: User, db: Session = Depends(get_db)):
     return user_db.create_user(db, user)
 
 

@@ -3,7 +3,7 @@ from typing import List
 
 from fastapi import APIRouter, Depends, status, HTTPException
 
-from schemas import Article, ArticleDisplay, ArticleDetail, BaseUser
+from schemas.user import Article, ArticleDisplay, ArticleDetail, BaseUser
 from db import article as article_db
 from db.database import get_db
 from auth.oauth2 import get_current_user

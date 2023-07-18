@@ -3,7 +3,7 @@ from random import choices
 import datetime
 
 from sqlalchemy.orm.session import Session
-from schemas import Article
+from schemas.user import Article
 from db.models import ArticleModel
 
 

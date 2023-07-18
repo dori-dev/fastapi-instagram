@@ -7,7 +7,7 @@ from jose.exceptions import JWTError
 from sqlalchemy.orm import Session
 
 from db.database import get_db
-from db.user import get_user_by_username
+from db.user_db import get_user_by_username
 
 
 SECRET_KEY = "44406a8683a220cc7ec77b4d967b70149cfe527a6ba017295aa72278fdf212b3"

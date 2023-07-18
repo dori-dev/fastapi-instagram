@@ -1,4 +1,7 @@
-from sqlalchemy import Column, Integer, String, Boolean, ForeignKey, DateTime
+from sqlalchemy import (
+    Column, ForeignKey,
+    Integer, String, DateTime,
+)
 from sqlalchemy.orm import relationship
 
 from db.database import base
@@ -11,17 +14,17 @@ class UserModel(base):
     username = Column(String(50), index=True)
     email = Column(String(100))
     password = Column(String(50))
-    articles = relationship('ArticleModel', back_populates='author')
+    posts = relationship('PostModel', back_populates='user')
 
 
-class ArticleModel(base):
-    __tablename__ = 'articles'
+class PostModel(base):
+    __tablename__ = 'posts'
 
     id = Column(Integer, index=True, primary_key=True)
-    title = Column(String(500))
-    content = Column(String)
-    slug = Column(String(8))
-    published = Column(Boolean)
-    published_at = Column(DateTime)
+    slug = Column(String(8), index=True)
+    image_url = Column(String(1024))
+    image_url_type = Column(String(100))
+    caption = Column(String)
+    timestamp = Column(DateTime)
     user_id = Column(Integer, ForeignKey('users.id'))
-    author = relationship('UserModel', back_populates='articles')
+    user = relationship('UserModel', back_populates='posts')
