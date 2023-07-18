@@ -2,8 +2,8 @@ import re
 from sqlalchemy.orm.session import Session
 
 from schemas import User
-from database.models import UserModel
-from database.hash import Hash
+from db.models import UserModel
+from db.hash import Hash
 from exceptions import EmailNotValid
 
 

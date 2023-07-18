@@ -4,7 +4,7 @@ import datetime
 
 from sqlalchemy.orm.session import Session
 from schemas import Article
-from database.models import ArticleModel
+from db.models import ArticleModel
 
 
 def generate_slug(db: Session, length=8):

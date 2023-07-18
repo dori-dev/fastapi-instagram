@@ -3,9 +3,9 @@ from fastapi.exceptions import HTTPException
 from fastapi.security.oauth2 import OAuth2PasswordRequestForm
 from sqlalchemy.orm.session import Session
 
-from database import models
-from database.db import get_db
-from database.hash import Hash
+from db import models
+from db.database import get_db
+from db.hash import Hash
 from auth import oauth2
 
 

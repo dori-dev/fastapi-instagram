@@ -4,8 +4,8 @@ from typing import List
 from fastapi import APIRouter, Depends, status, HTTPException
 
 from schemas import Article, ArticleDisplay, ArticleDetail, BaseUser
-from database import article as article_db
-from database.db import get_db
+from db import article as article_db
+from db.database import get_db
 from auth.oauth2 import get_current_user
 
 router = APIRouter(prefix='/article', tags=['article'])

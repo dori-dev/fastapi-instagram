@@ -3,8 +3,8 @@ from typing import List
 from fastapi import APIRouter, Depends, status, HTTPException, BackgroundTasks
 
 from schemas import User, UserDisplay
-from database import user as user_db
-from database.db import get_db
+from db import user as user_db
+from db.database import get_db
 
 router = APIRouter(prefix='/user', tags=['user'])
 
