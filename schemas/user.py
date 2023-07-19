@@ -22,7 +22,3 @@ class UserDisplay(UserBase):
 
     class Config:
         orm_mode = True
-
-
-class UserAuth(UserBase):
-    id: int

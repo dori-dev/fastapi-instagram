@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 
 from auth.oauth2 import get_current_user
 from schemas.post import Post, PostDisplay
-from schemas.user import UserAuth
+from schemas.auth import UserAuth
 from db import post_db
 from db.database import get_db
 

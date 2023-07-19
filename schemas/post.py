@@ -1,15 +1,10 @@
-from typing import Optional
+from typing import Optional, List
 from datetime import datetime
 
 from pydantic import BaseModel
 
-
-class User(BaseModel):
-    username: str
-    id: int
-
-    class Config:
-        orm_mode = True
+from schemas.auth import UserAuth
+from schemas.comment import CommentDisplay
 
 
 class PostBase(BaseModel):
@@ -26,7 +21,8 @@ class PostDisplay(PostBase):
     id: int
     timestamp: datetime
     slug: str
-    user: Optional[User]
+    user: Optional[UserAuth]
+    comments: List[CommentDisplay]
 
     class Config:
         orm_mode = True

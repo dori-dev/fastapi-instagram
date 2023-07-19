@@ -4,7 +4,7 @@ from random import choices
 from sqlalchemy.orm.session import Session
 
 from schemas.post import Post
-from schemas.user import UserAuth
+from schemas.auth import UserAuth
 from db.models import PostModel
 
 
