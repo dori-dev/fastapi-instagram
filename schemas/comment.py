@@ -7,7 +7,6 @@ from schemas.auth import UserAuth
 
 class CommentBase(BaseModel):
     text: str
-    timestamp: datetime
 
 
 class Comment(CommentBase):
@@ -18,6 +17,7 @@ class Comment(CommentBase):
 class CommentDisplay(CommentBase):
     id: int
     user: UserAuth
+    timestamp: datetime
 
     class Config:
         orm_mode = True
