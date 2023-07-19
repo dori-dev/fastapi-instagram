@@ -28,3 +28,16 @@ class PostModel(base):
     timestamp = Column(DateTime)
     user_id = Column(Integer, ForeignKey('users.id'))
     user = relationship('UserModel', back_populates='posts')
+    comments = relationship('CommentModel', back_populates='post')
+
+
+class CommentModel(base):
+    __tablename__ = 'commentsI'
+
+    id = Column(Integer, index=True, primary_key=True)
+    text = Column(String)
+    user_id = Column(Integer, ForeignKey('users.id'))
+    post_id = Column(Integer, ForeignKey('posts.id'))
+    timestamp = Column(DateTime)
+    user = relationship('UserModel')
+    post = relationship('PostModel', back_populates='comments')
