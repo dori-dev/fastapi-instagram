@@ -19,7 +19,7 @@ class PostBase(BaseModel):
 
 
 class Post(PostBase):
-    user_id: int
+    ...
 
 
 class PostDisplay(PostBase):

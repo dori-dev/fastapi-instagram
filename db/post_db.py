@@ -4,6 +4,7 @@ from random import choices
 from sqlalchemy.orm.session import Session
 
 from schemas.post import Post
+from schemas.user import UserAuth
 from db.models import PostModel
 
 
@@ -14,12 +15,12 @@ def generate_slug(db: Session, length=8):
     return slug
 
 
-def create_post(db: Session, request: Post):
+def create_post(db: Session, request: Post, user: UserAuth):
     post = PostModel(
         image_url=request.image_url,
         image_url_type=request.image_url_type,
         caption=request.caption,
-        user_id=request.user_id,
+        user_id=user.id,
         slug=generate_slug(db),
         timestamp=datetime.datetime.now(),
     )

@@ -3,7 +3,7 @@ from fastapi.exceptions import HTTPException
 from fastapi.security.oauth2 import OAuth2PasswordRequestForm
 from sqlalchemy.orm.session import Session
 
-from db import models
+from db.models import UserModel
 from db.database import get_db
 from db.hash import Hash
 from auth import oauth2
@@ -17,8 +17,8 @@ def get_token(
     request: OAuth2PasswordRequestForm = Depends(),
     db: Session = Depends(get_db),
 ):
-    user = db.query(models.UserModel).filter(
-        models.UserModel.username == request.username
+    user = db.query(UserModel).filter(
+        UserModel.username == request.username
     ).first()
     if user is None or Hash.verify(request.password, user.password) is False:
         raise HTTPException(
