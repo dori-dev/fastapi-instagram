@@ -38,3 +38,20 @@ def create_post(
 @router.get('/', response_model=List[PostDisplay])
 def get_posts(db: Session = Depends(get_db)):
     return post_db.get_all_posts(db)
+
+
+@router.delete(
+    '/delete/{slug}',
+    status_code=status.HTTP_204_NO_CONTENT
+)
+def delete_post(
+    slug: str,
+    db: Session = Depends(get_db),
+    user: UserAuth = Depends(get_current_user),
+):
+    if post_db.delete_post(db, slug, user.id):
+        return {}
+    raise HTTPException(
+        status_code=status.HTTP_404_NOT_FOUND,
+        detail=f"Post '{slug}' not found.",
+    )

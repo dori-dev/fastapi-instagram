@@ -32,3 +32,21 @@ def create_post(db: Session, request: Post, user: UserAuth):
 
 def get_all_posts(db: Session):
     return db.query(PostModel).all()
+
+
+def get_post(db: Session, slug):
+    try:
+        return db.query(PostModel).filter(PostModel.slug == slug).first()
+    except Exception:
+        return None
+
+
+def delete_post(db: Session, slug, user_id):
+    post = get_post(db, slug)
+    if post is None:
+        return False
+    if post.user_id != user_id:
+        return False
+    db.delete(post)
+    db.commit()
+    return True
